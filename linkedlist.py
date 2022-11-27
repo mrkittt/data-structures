@@ -23,7 +23,7 @@ class LinkedList:
             element = element.next
         element.next = Node(data, None)
 
-    def insert_elements(self, *args):  # insert multiple elements
+    def insert_elements(self, *args):
         for i in reversed(args):
             self.insert(i)
 
@@ -32,7 +32,7 @@ class LinkedList:
             self.append(i)
 
     def remove_at(self, index):
-        if index < 0 or index > self.get_length():
+        if index < 0 or index >= self.get_length():
             raise Exception('Invalid index')
         if index == 0:
             self.head = self.head.next
@@ -48,6 +48,34 @@ class LinkedList:
             element = element.next
             count += 1
 
+    def insert_at(self, data, index):
+        if index < 0 or index > self.get_length():
+            raise Exception('Invalid index')
+        if index == 0:
+            self.insert(data)
+        count = 0
+        element = self.head
+        while element:
+            if count == index - 1:
+                element.next = Node(data, element.next)
+                break
+            element = element.next
+            count += 1
+
+    def remove_byvalue(self, data):
+        if not self.head:
+            return
+        element = self.head
+        #  If the first element is the one to remove,
+        #  just reattach the head
+        if element.data == data:
+            self.head = element.next
+        while element.next:
+            if element.next.data == data:
+                element.next = element.next.next
+                break
+            element = element.next
+
     def print(self):
         if not self.head:
             print('None')
@@ -56,6 +84,7 @@ class LinkedList:
         while element:
             print(element.data, end=' => ')
             element = element.next
+        print()
 
     def get_length(self):
         length = 0
@@ -66,15 +95,5 @@ class LinkedList:
         return length
 
 
-linkedlist = LinkedList()
-
-linkedlist.insert(5)
-linkedlist.insert(4)
-linkedlist.insert(3)
-linkedlist.insert_elements(1, 2)
-linkedlist.append(6)
-linkedlist.append_elements(7, 8, 9)
-
-linkedlist.remove_at(8)
-
-linkedlist.print()
+ll = LinkedList()
+ll.insert_elements(1, 2, 3, 4, 5)
